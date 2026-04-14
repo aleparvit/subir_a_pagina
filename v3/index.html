@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Como te Mueves ZMG — Investigando la movilidad en la Zona Metropolitana de Guadalajara</title>
+  <meta name="description" content="Investigación periodística sobre el ecosistema del transporte público en la ZMG: concesionarios, tarifas y decisiones de infraestructura." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="design-tokens_2.css" />
+  <link rel="stylesheet" href="base_2.css" />
+  <link rel="stylesheet" href="components_2.css" />
+
+  <style>
+    /* ==========================================
+       COMPONENTES ADICIONALES — HOME
+       ========================================== */
+
+    /* Banda de alerta coyuntural */
+    .alert-band {
+      background-color: var(--accent-light);
+      border-bottom: 2px solid var(--accent);
+      padding: var(--space-3) 0;
+      text-align: center;
+    }
+
+    .alert-band p {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin: 0;
+      max-width: none;
+    }
+
+    .alert-band a {
+      color: var(--accent-dark);
+      font-weight: var(--weight-semibold);
+      text-decoration: underline;
+    }
+
+    /* Tarjetas temáticas (ejes de investigación) */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      margin: var(--space-9) 0 var(--space-10);
+    }
+
+    @media (max-width: 900px) {
+      .theme-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .theme-card {
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      text-decoration: none;
+      transition: all var(--transition-base) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition-base) var(--ease-out);
+    }
+
+    .theme-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+      text-decoration: none;
+    }
+
+    .theme-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .theme-card-eyebrow {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-widest);
+    }
+
+    .theme-card-question {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      color: var(--text-primary);
+      line-height: var(--leading-tight);
+      margin: 0;
+    }
+
+    .theme-card-desc {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: var(--leading-normal);
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .theme-card-cta {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .theme-card-cta::after {
+      content: '→';
+      transition: transform var(--transition-fast) var(--ease-out);
+    }
+
+    .theme-card:hover .theme-card-cta::after {
+      transform: translateX(4px);
+    }
+
+    /* Tabla de rutas */
+    .routes-section {
+      background-color: var(--surface);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+      margin: var(--space-8) 0;
+    }
+
+    .routes-header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--primary-light);
+    }
+
+    .routes-header p {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    .routes-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .routes-table th {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      padding: var(--space-3) var(--space-6);
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--gray-50);
+    }
+
+    .routes-table td {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    .routes-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .routes-table tr:hover td {
+      background-color: var(--gray-50);
+    }
+
+    .routes-table .row-highlight td {
+      background-color: var(--primary-light);
+    }
+
+    .routes-table .row-highlight:hover td {
+      background-color: #d0eff4;
+    }
+
+    .routes-table .estrato-name {
+      font-weight: var(--weight-medium);
+    }
+
+    .routes-table .num-rutas {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      color: var(--primary);
+    }
+
+    .routes-table .num-usuarios {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+    }
+
+    .routes-table .total-row td {
+      font-weight: var(--weight-bold);
+      border-top: 2px solid var(--gray-300);
+      background-color: var(--gray-50);
+    }
+
+    /* Barra proporcional en tabla */
+    .bar-cell {
+      min-width: 120px;
+    }
+
+    .usage-bar {
+      height: 6px;
+      background-color: var(--gray-200);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: var(--space-1);
+    }
+
+    .usage-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+      border-radius: 3px;
+      transition: width var(--transition-slow) var(--ease-out);
+    }
+
+    .usage-bar-fill.conventional {
+      background-color: var(--primary);
+    }
+
+    .usage-bar-fill.rail {
+      background-color: var(--success);
+    }
+
+    /* Tarifa comparativa */
+    .tariff-compare {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin: var(--space-7) 0;
+    }
+
+    @media (max-width: 640px) {
+      .tariff-compare {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tariff-item {
+      text-align: center;
+      padding: var(--space-5);
+      border-radius: var(--border-radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+    }
+
+    .tariff-item.current {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .tariff-year {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-2);
+    }
+
+    .tariff-amount {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: var(--weight-extrabold);
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+
+    .tariff-amount.old { color: var(--text-tertiary); }
+    .tariff-amount.technical { color: var(--danger); }
+    .tariff-amount.applied { color: var(--primary); }
+
+    .tariff-label {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Sección de contexto limpia */
+    .context-section {
+      padding: var(--space-9) 0;
+    }
+
+    .context-text {
+      font-family: var(--font-body);
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--text-primary);
+      max-width: var(--content-max);
+    }
+
+    /* Herramientas secundarias */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-7);
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      padding: var(--space-5);
+      text-decoration: none;
+      transition: all var(--transition-base) var(--ease-out);
+    }
+
+    .tool-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      text-decoration: none;
+    }
+
+    .tool-card-label {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-2);
+    }
+
+    .tool-card-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+      margin: 0 0 var(--space-2);
+    }
+
+    .tool-card-desc {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: var(--leading-normal);
+    }
+
+    /* Última actualización */
+    .update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-top: var(--space-5);
+    }
+
+    .update-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Sección de rutas: overflow en móvil */
+    @media (max-width: 768px) {
+      .routes-section {
+        overflow-x: auto;
+      }
+      .routes-table {
+        min-width: 580px;
+      }
+      .theme-card-question {
+        font-size: var(--text-2xl);
+      }
+      .tariff-compare {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-3);
+      }
+      .tariff-amount {
+        font-size: var(--text-4xl);
+      }
+    }
+
+    /* Fade-in sections */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BANDA DE ALERTA COYUNTURAL
+       ========================================== -->
+  <div class="alert-band">
+    <p>
+      Desde el 1 de abril de 2026, la tarifa del transporte público en la ZMG es de <strong>$11 pesos</strong>.
+      La tarifa técnica aprobada fue de $14 — un aumento del 47% respecto a los $9.50 anteriores.
+      <a href="tarifazo.html">Conoce el proceso →</a>
+    </p>
+  </div>
+
+  <!-- ==========================================
+       ENCABEZADO
+       ========================================== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Como te Mueves ZMG</a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="transparencia.html">Transparencia</a></li>
+          <li><a href="tarifazo.html">Tarifazo</a></li>
+          <li><a href="mundial.html">Mundial</a></li>
+          <li><a href="datos.html">Datos y mapas</a></li>
+          <li><a href="articulos.html">Artículos y reportajes</a></li>
+          <li><a href="metodologia.html">Metodología</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section class="section hero">
+    <div class="container">
+      <p class="hero-eyebrow">Investigando la movilidad en la ZMG</p>
+      <h1>Movernos informados<br>para movernos mejor</h1>
+      <p class="hero-subtitle">
+        El transporte público mueve a 2.15 millones de personas cada día en la Zona Metropolitana de Guadalajara.
+        Esta página investiga cómo funciona el sistema, quién lo controla y qué decisiones lo afectan.
+      </p>
+      <div class="update-badge">
+        <span class="update-dot" aria-hidden="true"></span>
+        Actualizado: abril 2026 · Cobertura activa durante el Mundial FIFA 2026
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       TARJETAS TEMÁTICAS — TRES EJES
+       ========================================== -->
+  <section class="section fade-in-section" aria-labelledby="ejes-titulo">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Las preguntas que guían esta investigación</p>
+        <h2 class="section-title" id="ejes-titulo">Tres ejes, un mismo sistema</h2>
+        <p class="section-description">
+          El transporte público de la ZMG puede analizarse desde distintos ángulos.
+          Aquí exploramos tres: quién lo opera, cuánto cuesta y para quién está diseñado.
+        </p>
+      </header>
+
+      <div class="theme-grid">
+
+        <a href="transparencia.html" class="theme-card">
+          <span class="theme-card-eyebrow">Transparencia</span>
+          <p class="theme-card-question">¿Quién opera tu camión?</p>
+          <p class="theme-card-desc">
+            El transporte urbano de la ZMG está operado por concesionarios privados bajo permiso del gobierno estatal.
+            Investigamos quiénes son, cuántas rutas controlan y qué información es pública.
+          </p>
+          <span class="theme-card-cta">Explorar concesionarios</span>
+        </a>
+
+        <a href="tarifazo.html" class="theme-card">
+          <span class="theme-card-eyebrow">Tarifazo</span>
+          <p class="theme-card-question">¿Por qué cambió tu tarifa?</p>
+          <p class="theme-card-desc">
+            En diciembre de 2025, el Comité Técnico Tarifario aprobó subir el pasaje a $14 pesos.
+            El gobernador lo frenó en $11. Analizamos la fórmula, el proceso y los actores involucrados.
+          </p>
+          <span class="theme-card-cta">Ver el análisis</span>
+        </a>
+
+        <a href="datos.html" class="theme-card">
+          <span class="theme-card-eyebrow">Datos y mapas</span>
+          <p class="theme-card-question">¿Llega el transporte a tu colonia?</p>
+          <p class="theme-card-desc">
+            Las zonas con mayor insuficiencia de acceso al transporte se concentran en la periferia de la ZMG.
+            Aquí puedes explorar la cobertura, la demanda y las brechas del sistema.
+          </p>
+          <span class="theme-card-cta">Ver los mapas</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       EL SISTEMA EN NÚMEROS
+       ========================================== -->
+  <section id="datos-sistema" class="section stats-section fade-in-section" aria-labelledby="sistema-titulo">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">El transporte público</p>
+        <h2 class="section-title" id="sistema-titulo">El sistema que mueve a la ciudad</h2>
+        <p class="section-description">
+          Más de 2.5 millones de viajes ocurren cada día en la ZMG.
+          Estos son los números que definen cómo se mueve la ciudad.
+        </p>
+      </header>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number animated" data-target="2150000" data-suffix="M" data-decimals="1">2.15M</div>
+          <div class="stat-label">Personas que usan el sistema diariamente</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number animated" data-target="45.3" data-suffix="min" data-decimals="1">45.3min</div>
+          <div class="stat-label">Tiempo de traslado promedio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number animated" data-target="248" data-suffix="" data-decimals="0">248</div>
+          <div class="stat-label">Rutas de transporte en la ZMG</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number animated" data-target="21.6" data-suffix="%" data-decimals="1">21.6%</div>
+          <div class="stat-label">De la población usa el transporte público como medio principal</div>
+        </div>
+      </div>
+
+      <!-- Tabla de rutas por clasificación -->
+      <h3 style="font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: var(--weight-semibold); color: var(--text-primary); margin: var(--space-8) 0 var(--space-3);">
+        Cuánta gente mueve cada tipo de ruta
+      </h3>
+      <p style="font-family: var(--font-heading); font-size: var(--text-base); color: var(--text-secondary); margin-bottom: var(--space-5); max-width: 65ch;">
+        No todas las rutas son iguales. Las rutas convencionales —las más numerosas y las menos reguladas— 
+        concentran la mayor parte de los usuarios del sistema.
+      </p>
+
+      <div class="routes-section">
+        <div class="routes-header">
+          <p>Fuente: IMEPLAN / SITEUR · Datos 2025</p>
+        </div>
+        <table class="routes-table" aria-label="Rutas de transporte por clasificación y usuarios diarios">
+          <thead>
+            <tr>
+              <th scope="col">Tipo de ruta</th>
+              <th scope="col">Rutas</th>
+              <th scope="col">Usuarios diarios</th>
+              <th scope="col" class="bar-cell">Proporción del total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-highlight">
+              <td class="estrato-name">Rutas convencionales</td>
+              <td class="num-rutas">175</td>
+              <td class="num-usuarios">1,661,392</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--primary-dark);">60.3%</span>
+                <div class="usage-bar"><div class="usage-bar-fill conventional" style="width: 60.3%"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Líneas de tren</td>
+              <td class="num-rutas">3</td>
+              <td class="num-usuarios">384,491</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--success);">14.0%</span>
+                <div class="usage-bar"><div class="usage-bar-fill rail" style="width: 14%; background-color: var(--success);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Mi Macro Periférico</td>
+              <td class="num-rutas">7</td>
+              <td class="num-usuarios">305,157</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-tertiary);">11.1%</span>
+                <div class="usage-bar"><div class="usage-bar-fill" style="width: 11.1%; background-color: var(--info);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Alimentadoras</td>
+              <td class="num-rutas">31</td>
+              <td class="num-usuarios">133,064</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-tertiary);">4.8%</span>
+                <div class="usage-bar"><div class="usage-bar-fill" style="width: 4.8%; background-color: var(--warning);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Corredor López Mateos</td>
+              <td class="num-rutas">7</td>
+              <td class="num-usuarios">109,712</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-tertiary);">4.0%</span>
+                <div class="usage-bar"><div class="usage-bar-fill" style="width: 4%; background-color: var(--warning);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Mi Macro Calzada</td>
+              <td class="num-rutas">2</td>
+              <td class="num-usuarios">120,017</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-tertiary);">4.4%</span>
+                <div class="usage-bar"><div class="usage-bar-fill" style="width: 4.4%; background-color: var(--info);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="estrato-name">Rutas federales</td>
+              <td class="num-rutas">23</td>
+              <td class="num-usuarios">40,000</td>
+              <td class="bar-cell">
+                <span style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-tertiary);">1.5%</span>
+                <div class="usage-bar"><div class="usage-bar-fill" style="width: 1.5%; background-color: var(--gray-400);"></div></div>
+              </td>
+            </tr>
+            <tr class="total-row">
+              <td class="estrato-name">Total del sistema</td>
+              <td class="num-rutas">248</td>
+              <td class="num-usuarios">2,753,833</td>
+              <td class="bar-cell">100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       CONTEXTO: LA TARIFA HOY
+       ========================================== -->
+  <section class="context-section section fade-in-section" aria-labelledby="tarifa-titulo">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Contexto</p>
+        <h2 class="section-title" id="tarifa-titulo">La tarifa en 2026</h2>
+        <p class="section-description">
+          El primer ajuste tarifario desde 2019 entró en vigor el 1 de abril de 2026,
+          en el contexto de los preparativos para el Mundial FIFA.
+        </p>
+      </header>
+
+      <div class="tariff-compare">
+        <div class="tariff-item">
+          <p class="tariff-year">Tarifa 2019–2025</p>
+          <p class="tariff-amount old">$9.50</p>
+          <p class="tariff-label">Tarifa general vigente durante 7 años</p>
+        </div>
+        <div class="tariff-item">
+          <p class="tariff-year">Tarifa técnica aprobada</p>
+          <p class="tariff-amount technical">$14.00</p>
+          <p class="tariff-label">Calculada por el Comité Técnico Tarifario en diciembre de 2025</p>
+        </div>
+        <div class="tariff-item current">
+          <p class="tariff-year">Tarifa aplicada desde abril 2026</p>
+          <p class="tariff-amount applied">$11.00</p>
+          <p class="tariff-label">Fijada por el Ejecutivo estatal con subsidio de $3 por pasaje</p>
+        </div>
+      </div>
+
+      <p class="context-text">
+        La diferencia entre la tarifa técnica ($14) y la tarifa aplicada ($11) se cubre mediante un subsidio estatal
+        que el gobierno de Jalisco estimó en 1,200 millones de pesos para 2026. El Presupuesto de Egresos aprobado
+        por el Congreso del Estado contempla 777 millones de pesos para este fin. La distancia entre ambas cifras
+        no ha sido explicada públicamente.
+      </p>
+      <p>
+        <a href="tarifazo.html" class="button button-secondary">Conocer el proceso completo →</a>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       HERRAMIENTAS SECUNDARIAS
+       ========================================== -->
+  <section class="section fade-in-section" aria-labelledby="herramientas-titulo">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Recursos del proyecto</p>
+        <h2 class="section-title" id="herramientas-titulo">Más información</h2>
+      </header>
+
+      <div class="tools-grid">
+        <a href="articulos.html" class="tool-card">
+          <p class="tool-card-label">Artículos y reportajes</p>
+          <p class="tool-card-title">Análisis y cobertura periodística</p>
+          <p class="tool-card-desc">Textos de fondo sobre el sistema de transporte, sus actores y sus implicaciones.</p>
+        </a>
+        <a href="metodologia.html" class="tool-card">
+          <p class="tool-card-label">Metodología</p>
+          <p class="tool-card-title">Cómo trabajamos</p>
+          <p class="tool-card-desc">Bases de datos, solicitudes de transparencia y código fuente detrás de cada visualización.</p>
+        </a>
+        <a href="mundial.html" class="tool-card">
+          <p class="tool-card-label">Mundial FIFA 2026</p>
+          <p class="tool-card-title">Transporte e infraestructura</p>
+          <p class="tool-card-desc">Seguimiento de las obras y decisiones de movilidad en el contexto del Mundial en Guadalajara.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Como te Mueves ZMG</h4>
+          <p style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--gray-400); line-height: var(--leading-relaxed); max-width: none;">
+            Investigación periodística independiente sobre el ecosistema de transporte público
+            en la Zona Metropolitana de Guadalajara. Código abierto. Datos bajo licencia CC BY 4.0.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Secciones</h4>
+          <ul>
+            <li><a href="transparencia.html">Transparencia</a></li>
+            <li><a href="tarifazo.html">Tarifazo</a></li>
+            <li><a href="mundial.html">Mundial FIFA 2026</a></li>
+            <li><a href="datos.html">Datos y mapas</a></li>
+            <li><a href="articulos.html">Artículos y reportajes</a></li>
+            <li><a href="metodologia.html">Metodología</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Proyecto</h4>
+          <ul>
+            <li><a href="metodologia.html">Bases de datos</a></li>
+            <li><a href="metodologia.html#transparencia">Solicitudes de transparencia</a></li>
+            <li><a href="https://github.com/" target="_blank" rel="noopener">Código en GitHub</a></li>
+            <li><a href="mailto:contacto@comotemoveszmg.mx">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Como te Mueves ZMG · Datos bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/" style="color: var(--primary);">CC BY 4.0</a> ·
+        Publicado con GitHub Pages
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT: ANIMACIONES Y SCROLL
+       ========================================== -->
+  <script>
+    // Fade-in al hacer scroll
+    const sections = document.querySelectorAll('.fade-in-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Header con sombra al hacer scroll
+    const header = document.querySelector('.site-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        header.style.boxShadow = 'var(--shadow-md)';
+      } else {
+        header.style.boxShadow = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>

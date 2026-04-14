@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Tarifazo — Como te Mueves ZMG</title>
+  <meta name="description" content="Análisis del proceso que llevó al aumento de tarifa del transporte público en la ZMG en 2026: la fórmula, los actores y el contrato con Broxel." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="design-tokens_2.css" />
+  <link rel="stylesheet" href="base_2.css" />
+  <link rel="stylesheet" href="components_2.css" />
+
+  <style>
+
+    /* ── Sub-navegación interna ────────────────── */
+    .subnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 65px;          /* debajo del header principal */
+      z-index: 900;
+    }
+
+    .subnav-inner {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .subnav-inner::-webkit-scrollbar { display: none; }
+
+    .subnav-link {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-secondary);
+      padding: var(--space-4) var(--space-5);
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: all var(--transition-base) var(--ease-out);
+      text-decoration: none;
+    }
+
+    .subnav-link:hover,
+    .subnav-link.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* ── Hero de sección ───────────────────────── */
+    .section-hero {
+      padding: var(--space-9) 0 var(--space-8);
+      background: linear-gradient(180deg, var(--primary-light) 0%, var(--background) 100%);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-5);
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: var(--primary); text-decoration: none; }
+    .back-link::before { content: '←'; }
+
+    /* ── Comparativo tarifario ─────────────────── */
+    .tariff-compare {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin: var(--space-7) 0;
+    }
+
+    @media (max-width: 640px) {
+      .tariff-compare { grid-template-columns: 1fr; }
+    }
+
+    .tariff-item {
+      text-align: center;
+      padding: var(--space-5);
+      border-radius: var(--border-radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+    }
+
+    .tariff-item.highlight { border-color: var(--primary); background: var(--primary-light); }
+    .tariff-item.alert     { border-color: var(--danger);  background: #fef2f2; }
+
+    .tariff-year  { font-family: var(--font-heading); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: var(--tracking-wider); margin-bottom: var(--space-2); }
+    .tariff-peso  { font-family: var(--font-display); font-size: var(--text-5xl); font-weight: var(--weight-extrabold); line-height: 1; margin-bottom: var(--space-1); }
+    .tariff-peso.old       { color: var(--text-tertiary); }
+    .tariff-peso.technical { color: var(--danger); }
+    .tariff-peso.applied   { color: var(--primary); }
+    .tariff-note  { font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-normal); }
+
+    /* ── Timeline embed ────────────────────────── */
+    .timeline-container {
+      margin: var(--space-7) 0;
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+
+    .timeline-container iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    /* ── Fórmula tarifaria ─────────────────────── */
+    .formula-block {
+      background: var(--gray-900);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-7);
+      margin: var(--space-7) 0;
+      color: var(--gray-50);
+    }
+
+    .formula-equation {
+      font-family: var(--font-mono);
+      font-size: var(--text-xl);
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: var(--space-6);
+      letter-spacing: 0.02em;
+    }
+
+    .formula-vars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 700px) {
+      .formula-vars { grid-template-columns: 1fr; }
+    }
+
+    .formula-var {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+    }
+
+    .formula-var-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      color: var(--primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .formula-var-desc {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--gray-300);
+      line-height: var(--leading-normal);
+      margin: 0;
+    }
+
+    .formula-caption {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--gray-400);
+      text-align: center;
+      margin-top: var(--space-4);
+    }
+
+    /* ── Caja de opacidad ──────────────────────── */
+    .opacity-box {
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      margin: var(--space-7) 0;
+    }
+
+    .opacity-box-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-bold);
+      color: var(--accent-dark);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .opacity-box-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+
+    @media (max-width: 600px) {
+      .opacity-box-grid { grid-template-columns: 1fr; }
+    }
+
+    .opacity-col-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-3);
+    }
+
+    .opacity-col-title.yes { color: var(--success); }
+    .opacity-col-title.no  { color: var(--danger);  }
+
+    .opacity-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .opacity-list li {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      margin: 0;
+    }
+
+    .opacity-list li:last-child { border-bottom: none; }
+    .opacity-list li::before { flex-shrink: 0; margin-top: 1px; }
+    .opacity-list.yes li::before { content: '✓'; color: var(--success); font-weight: bold; }
+    .opacity-list.no  li::before { content: '✗'; color: var(--danger);  font-weight: bold; }
+
+    /* ── Discrepancia del subsidio ─────────────── */
+    .discrepancy-block {
+      background: #fef2f2;
+      border: 2px solid var(--danger);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      margin: var(--space-7) 0;
+    }
+
+    .discrepancy-block .label {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--danger);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-4);
+    }
+
+    .discrepancy-amounts {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-4);
+    }
+
+    .discrepancy-amt {
+      text-align: center;
+    }
+
+    .discrepancy-amt .number {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-extrabold);
+      line-height: 1;
+    }
+
+    .discrepancy-amt .number.announced { color: var(--text-tertiary); }
+    .discrepancy-amt .number.budgeted  { color: var(--danger); }
+    .discrepancy-amt .desc {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-top: var(--space-1);
+    }
+
+    .discrepancy-arrow {
+      font-size: var(--text-4xl);
+      color: var(--gray-400);
+      flex-shrink: 0;
+    }
+
+    .discrepancy-gap {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: var(--leading-normal);
+      margin: 0;
+    }
+
+    /* ── Actores (tabla) ───────────────────────── */
+    .actors-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-6) 0;
+    }
+
+    .actors-table th {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      padding: var(--space-3) var(--space-5);
+      text-align: left;
+      border-bottom: 2px solid var(--gray-200);
+      background: var(--gray-50);
+    }
+
+    .actors-table td {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+
+    .actors-table tr:hover td { background: var(--gray-50); }
+
+    .actor-name { font-weight: var(--weight-semibold); }
+    .actor-role { color: var(--text-secondary); font-size: var(--text-xs); margin-top: 2px; }
+
+    .influence-badge {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      padding: 2px 8px;
+      border-radius: var(--border-radius-full);
+    }
+
+    .influence-high   { background: #fef3c7; color: #92400e; }
+    .influence-vhigh  { background: #fecaca; color: #991b1b; }
+    .influence-medium { background: var(--gray-100); color: var(--gray-600); }
+
+    /* ── Tarjetas de artículo ──────────────────── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
+      margin: var(--space-8) 0;
+    }
+
+    @media (max-width: 768px) {
+      .articles-grid { grid-template-columns: 1fr; }
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition-base) var(--ease-out);
+    }
+
+    .article-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+      text-decoration: none;
+    }
+
+    .article-card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .article-card-body {
+      padding: var(--space-5);
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .article-card-type {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-widest);
+    }
+
+    .article-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--text-primary);
+      line-height: var(--leading-tight);
+      margin: 0;
+    }
+
+    .article-card-excerpt {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: var(--leading-relaxed);
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .article-card-meta {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      display: flex;
+      gap: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .article-card-cta {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--primary);
+    }
+
+    .article-card-cta::after {
+      content: ' →';
+      transition: margin var(--transition-fast) var(--ease-out);
+    }
+
+    .article-card:hover .article-card-cta::after { margin-left: 4px; }
+
+    /* ── Artículo completo (dentro de sección) ─── */
+    .article-full {
+      max-width: var(--content-max);
+      margin: 0 auto;
+    }
+
+    .article-full-header {
+      margin-bottom: var(--space-7);
+    }
+
+    .article-full-img {
+      width: 100%;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: var(--space-6);
+      display: block;
+    }
+
+    .article-full-title {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: var(--weight-extrabold);
+      line-height: var(--leading-tight);
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+    }
+
+    .article-full-byline {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+    }
+
+    .article-body p {
+      font-family: var(--font-body);
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--text-primary);
+      margin-bottom: var(--space-5);
+      max-width: none;
+    }
+
+    .article-body strong { font-weight: var(--weight-bold); }
+
+    .article-body ul {
+      font-family: var(--font-body);
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--text-primary);
+      padding-left: var(--space-6);
+      margin-bottom: var(--space-5);
+    }
+
+    .article-body ul li { margin-bottom: var(--space-3); }
+
+    /* ── Separador de sección ──────────────────── */
+    .section-divider {
+      border: none;
+      border-top: 2px solid var(--gray-200);
+      margin: var(--space-10) 0 var(--space-9);
+    }
+
+    /* ── Fade in ───────────────────────────────── */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Pull quote ajustado ──────────────────── */
+    .pullquote {
+      max-width: none;
+      margin: var(--space-7) 0;
+    }
+
+    /* ── Nota de fuente ─────────────────────────── */
+    .source-note {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--gray-200);
+      padding-top: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    /* ── Alert band (igual que home) ───────────── */
+    .alert-band {
+      background-color: var(--accent-light);
+      border-bottom: 2px solid var(--accent);
+      padding: var(--space-3) 0;
+      text-align: center;
+    }
+    .alert-band p {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin: 0;
+      max-width: none;
+    }
+    .alert-band a { color: var(--accent-dark); font-weight: var(--weight-semibold); text-decoration: underline; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── ALERTA COYUNTURAL ─────────────────────── -->
+  <div class="alert-band">
+    <p>
+      Desde el 1 de abril de 2026, la tarifa del transporte en la ZMG es de <strong>$11 pesos</strong>.
+      La tarifa técnica aprobada fue de $14 — un aumento del 47% respecto a los $9.50 anteriores.
+    </p>
+  </div>
+
+  <!-- ── HEADER ──────────────────────────────────── -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Como te Mueves ZMG</a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="transparencia.html">Transparencia</a></li>
+          <li><a href="tarifazo.html" aria-current="page" style="color: var(--primary);">Tarifazo</a></li>
+          <li><a href="mundial.html">Mundial</a></li>
+          <li><a href="datos.html">Datos y mapas</a></li>
+          <li><a href="articulos.html">Artículos y reportajes</a></li>
+          <li><a href="metodologia.html">Metodología</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── SUB-NAVEGACIÓN INTERNA ──────────────────── -->
+  <nav class="subnav" aria-label="Navegación de sección">
+    <div class="container">
+      <div class="subnav-inner">
+        <a href="#historia"   class="subnav-link">La historia</a>
+        <a href="#formula"    class="subnav-link">La fórmula</a>
+        <a href="#actores"    class="subnav-link">Los actores</a>
+        <a href="#broxel"     class="subnav-link">Broxel y la tarjeta</a>
+        <a href="#reportajes" class="subnav-link">Artículos</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ── HERO DE SECCIÓN ─────────────────────────── -->
+  <section class="section-hero">
+    <div class="container">
+      <a href="index.html" class="back-link">Página principal</a>
+      <p class="hero-eyebrow">Tarifazo 2026</p>
+      <h1 style="max-width: 18ch;">¿Por qué cambió tu tarifa?</h1>
+      <p class="hero-subtitle" style="max-width: 52ch;">
+        En diciembre de 2025, a puerta cerrada, el Comité Técnico Tarifario aprobó subir el pasaje
+        de $9.50 a $14 pesos. Aquí documentamos el proceso: la fórmula, las decisiones y los actores detrás del aumento.
+      </p>
+
+      <div class="tariff-compare" style="margin-top: var(--space-7);">
+        <div class="tariff-item">
+          <p class="tariff-year">Tarifa 2019–2025</p>
+          <p class="tariff-peso old">$9.50</p>
+          <p class="tariff-note">Vigente durante 7 años</p>
+        </div>
+        <div class="tariff-item alert">
+          <p class="tariff-year">Tarifa técnica (dic. 2025)</p>
+          <p class="tariff-peso technical">$14.00</p>
+          <p class="tariff-note">Aprobada por el Comité Técnico Tarifario el 26 de diciembre de 2025</p>
+        </div>
+        <div class="tariff-item highlight">
+          <p class="tariff-year">Tarifa aplicada (abr. 2026)</p>
+          <p class="tariff-peso applied">$11.00</p>
+          <p class="tariff-note">Fijada por el Ejecutivo con subsidio de $3 por pasaje</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════
+       MOMENTO 1 — LA HISTORIA
+       ════════════════════════════════════════════ -->
+  <section id="historia" class="section fade-in-section">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Momento 1 · La historia</p>
+        <h2 class="section-title">¿Cómo llegamos aquí?</h2>
+        <p class="section-description">
+          El aumento de 2026 no fue un evento aislado. Es el resultado de un proceso
+          que comenzó en 2018, con decisiones que se acumularon durante dos administraciones estatales.
+        </p>
+      </header>
+
+      <div class="timeline-container">
+        <iframe
+          src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vSbT0Zz4bzAOi7WDDWfzXFApmWvJB24pJhpZ6DFiyO7rtgUfQaGBVA04mAiV7aEJSEQ0d7WzlHx0D45&font=Default&lang=es&timenav_position=top&hash_bookmark=true&initial_zoom=2&theme=contrast&width=100%25&height=650"
+          height="650"
+          title="Línea del tiempo: el tarifazo en la ZMG 2018–2026"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <p class="source-note">Fuente: Elaboración propia con base en reportes de UDG TV, El Informador, Infobae México y documentos oficiales del gobierno de Jalisco.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ════════════════════════════════════════════
+       MOMENTO 2 — LA FÓRMULA
+       ════════════════════════════════════════════ -->
+  <section id="formula" class="section fade-in-section">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Momento 2 · La fórmula</p>
+        <h2 class="section-title">¿Cómo se calcula la tarifa?</h2>
+        <p class="section-description">
+          La Ley de Movilidad de Jalisco establece una fórmula de indexación anual.
+          El problema: solo considera costos de los operadores, no la calidad del servicio.
+        </p>
+      </header>
+
+      <!-- Fórmula visual -->
+      <div class="formula-block">
+        <p class="formula-equation">T = T₀ · (1 + α·ΔC + β·ΔINPP + γ·ΔSM)</p>
+        <div class="formula-vars">
+          <div class="formula-var">
+            <p class="formula-var-name">α · ΔC</p>
+            <p class="formula-var-desc">Variación en el precio de los combustibles (diésel / gas natural). Ponderación definida por el Comité.</p>
+          </div>
+          <div class="formula-var">
+            <p class="formula-var-name">β · ΔINPP</p>
+            <p class="formula-var-desc">Variación del Índice Nacional de Precios Productor. Refleja los costos de operación vehicular.</p>
+          </div>
+          <div class="formula-var">
+            <p class="formula-var-name">γ · ΔSM</p>
+            <p class="formula-var-desc">Variación anual del salario mínimo. Corresponde a los costos de recursos humanos del sector.</p>
+          </div>
+        </div>
+        <p class="formula-caption">Artículo 331 · Ley de Movilidad, Seguridad Vial y Transporte del Estado de Jalisco</p>
+      </div>
+
+      <!-- Qué entra y qué no -->
+      <div class="opacity-box">
+        <p class="opacity-box-title">⚠ Lo que la fórmula incluye y lo que omite</p>
+        <div class="opacity-box-grid">
+          <div>
+            <p class="opacity-col-title yes">✓ Variables incluidas</p>
+            <ul class="opacity-list yes">
+              <li>Precio del combustible (diésel)</li>
+              <li>Costos de operación vehicular (INPP)</li>
+              <li>Costo de mano de obra (salario mínimo)</li>
+            </ul>
+          </div>
+          <div>
+            <p class="opacity-col-title no">✗ Variables no incluidas</p>
+            <ul class="opacity-list no">
+              <li>Satisfacción del usuario</li>
+              <li>Frecuencia real de paso</li>
+              <li>Cobertura en zonas periféricas</li>
+              <li>Accesibilidad para personas con discapacidad</li>
+              <li>Porcentaje de flota operativa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--leading-relaxed);">
+        La aplicación de 2026 tuvo además una particularidad: el Comité Técnico utilizó una <strong>indexación multianual</strong>
+        que proyecta costos hasta 2030. Esta interpretación fue cuestionada por académicos de la Universidad de Guadalajara
+        y el Observatorio Ciudadano de Movilidad, quienes señalaron que la ley solo permite ajustes anuales.
+        La discrepancia entre lo que se votó (13.03 pesos, según el representante de la UdeG) y lo que se publicó
+        (14.00 pesos) tampoco ha sido aclarada públicamente: el acta de la sesión del 26 de diciembre de 2025
+        no ha sido publicada de forma íntegra.
+      </p>
+
+      <!-- Discrepancia del subsidio -->
+      <div class="discrepancy-block">
+        <p class="label">Dato no aclarado</p>
+        <div class="discrepancy-amounts">
+          <div class="discrepancy-amt">
+            <p class="number announced">$1,200M</p>
+            <p class="desc">Anunciados por el gobernador<br>para el subsidio en 2026</p>
+          </div>
+          <span class="discrepancy-arrow">→</span>
+          <div class="discrepancy-amt">
+            <p class="number budgeted">$777M</p>
+            <p class="desc">Aprobados por el Congreso<br>en el Presupuesto de Egresos</p>
+          </div>
+        </div>
+        <p class="discrepancy-gap">
+          La diferencia de más de <strong>423 millones de pesos</strong> entre el anuncio del Ejecutivo y el presupuesto aprobado
+          no ha sido explicada. El Secretario de Hacienda mencionó "mecanismos de reconducción", pero no existe
+          una partida presupuestal específica que los documente.
+        </p>
+      </div>
+
+      <p class="source-note">Fuentes: Presupuesto de Egresos 2026 del Estado de Jalisco; declaraciones del Secretario de Hacienda ante el Congreso del Estado; análisis del Dr. Mario Córdova España (UdeG).</p>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ════════════════════════════════════════════
+       MOMENTO 3 — LOS ACTORES
+       ════════════════════════════════════════════ -->
+  <section id="actores" class="section fade-in-section">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Momento 3 · Los actores</p>
+        <h2 class="section-title">¿Quién decidió esto?</h2>
+        <p class="section-description">
+          La fijación de la tarifa involucra a una cadena de actores con distintos niveles de influencia.
+          Esto es lo que sabemos de cada uno.
+        </p>
+      </header>
+
+      <h3 style="font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--text-secondary); margin-bottom: var(--space-4);">Círculo de decisión política</h3>
+
+      <div style="overflow-x: auto;">
+        <table class="actors-table" aria-label="Actores en la decisión tarifaria">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cargo</th>
+              <th>Rol en la decisión</th>
+              <th>Influencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <p class="actor-name">Pablo Lemus Navarro</p>
+                <p class="actor-role">Gobernador de Jalisco</p>
+              </td>
+              <td>Poder Ejecutivo</td>
+              <td>Responsable de fijar la tarifa final aplicada. Anunció el freno a $14 y estableció la tarifa de $11.</td>
+              <td><span class="influence-badge influence-vhigh">Muy alta</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Diego Monraz Villaseñor</p>
+                <p class="actor-role">Secretario de Transporte (SETRAN)</p>
+              </td>
+              <td>SETRAN</td>
+              <td>Coordinó los estudios técnicos presentados al Comité. Fue señalado por el representante de la UdeG como quien impuso los $14 en la sesión del 26 de diciembre.</td>
+              <td><span class="influence-badge influence-high">Alta</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Mario Córdova España</p>
+                <p class="actor-role">Universidad de Guadalajara</p>
+              </td>
+              <td>Comité Técnico Tarifario</td>
+              <td>Representante académico. Rechazó la tarifa de $14 y documentó la discrepancia con los $13.03 que describe como el resultado real de la votación.</td>
+              <td><span class="influence-badge influence-medium">Media-Alta</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Enrique Dueñas Rodríguez</p>
+                <p class="actor-role">Observatorio Ciudadano de Movilidad</p>
+              </td>
+              <td>Comité Técnico Tarifario</td>
+              <td>Supervisión de la legalidad del proceso. Denunció la ilegalidad de la sesión a puerta cerrada del 26 de diciembre.</td>
+              <td><span class="influence-badge influence-medium">Media</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Nazario Ramírez</p>
+                <p class="actor-role">CTM Jalisco (transportistas)</p>
+              </td>
+              <td>Gremio</td>
+              <td>Líder histórico de los concesionarios de la CTM. Detenido en octubre de 2025 por presuntos vínculos con actividades delictivas, lo que alteró la dinámica de negociación del sector.</td>
+              <td><span class="influence-badge influence-medium">Media (antes alta)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="source-note">Fuentes: UDG TV, Zona Docs, El Financiero, documentos del Comité Técnico Tarifario.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ════════════════════════════════════════════
+       BROXEL Y LA TARJETA
+       ════════════════════════════════════════════ -->
+  <section id="broxel" class="section fade-in-section">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">El contrato</p>
+        <h2 class="section-title">Broxel y la Tarjeta Única</h2>
+        <p class="section-description">
+          Para acceder al subsidio de $3 por pasaje, el gobierno de Jalisco contrató a la empresa Servicios Broxel
+          como operadora de la Tarjeta Única "Al Estilo Jalisco". Esto es lo que sabemos del contrato.
+        </p>
+      </header>
+
+      <!-- Datos clave del contrato -->
+      <div class="stats-grid" style="margin-bottom: var(--space-7);">
+        <div class="stat-card">
+          <div class="stat-number" style="font-size: var(--text-4xl);">$272.6M</div>
+          <div class="stat-label">Monto del contrato adjudicado (oct. 2025)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="font-size: var(--text-4xl);">$5.45</div>
+          <div class="stat-label">Pesos mensuales cobrados por tarjeta activa</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="font-size: var(--text-4xl);">5M</div>
+          <div class="stat-label">Proyección máxima de usuarios</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="font-size: var(--text-4xl); color: var(--danger);">5.0</div>
+          <div class="stat-label">Calificación de Broxel en CONDUSEF (sem. 1, 2025) — reprobado</div>
+        </div>
+      </div>
+
+      <blockquote class="pullquote">
+        "Si el gobierno ya terminó reculando y aseguró que la tarjeta no sería necesaria para acceder al subsidio,
+        entonces el foco cambia: ¿qué pasa con el contrato que ya estaba firmado?"
+        <p class="pullquote-cite">Nota de investigación · Como te Mueves ZMG</p>
+      </blockquote>
+
+      <p style="font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--leading-relaxed);">
+        El contrato con Broxel (licitación LPN 690/2025) prevé una <strong>garantía mínima de compra de dos millones de tarjetas</strong>.
+        Esto significa que el gobierno tiene una obligación de pago por ese volumen independientemente
+        de cuántas personas efectivamente usen la tarjeta. La Contraloría del Estado anunció en marzo de 2026
+        una auditoría al contrato. Las preguntas que permanecen abiertas: cuántas tarjetas se emitieron,
+        cuánto se ha pagado, y qué sucedió con los datos personales recabados durante el preregistro.
+      </p>
+
+      <p class="source-note">Fuentes: Expediente LPN 690/2025 de la Secretaría de Administración de Jalisco; CONDUSEF; Zona Docs; Sin Embargo MX.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ════════════════════════════════════════════
+       ARTÍCULOS Y REPORTAJES
+       ════════════════════════════════════════════ -->
+  <section id="reportajes" class="section fade-in-section">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-eyebrow">Artículos y reportajes</p>
+        <h2 class="section-title">Más sobre el tarifazo</h2>
+        <p class="section-description">
+          Análisis periodísticos sobre el contrato con Broxel, la Tarjeta Única y sus implicaciones.
+        </p>
+      </header>
+
+      <div class="articles-grid">
+
+        <!-- Artículo 1: Broxel -->
+        <a href="articulo-broxel.html" class="article-card">
+          <img
+            src="imagen_contrato_broxel.png"
+            alt="La licitación de Broxel — tarjeta naranja Al Estilo Jalisco"
+            class="article-card-img"
+          />
+          <div class="article-card-body">
+            <p class="article-card-type">Nota de investigación</p>
+            <h3 class="article-card-title">Broxel en Jalisco: una licitación extraña y un contrato millonario</h3>
+            <p class="article-card-excerpt">
+              El gobierno de Jalisco contrató a una empresa con antecedentes regulatorios para administrar
+              el subsidio al transporte. Analizamos el expediente de licitación y lo que sabemos del contrato.
+            </p>
+            <div class="article-card-meta">
+              <span>Abril 2026</span>
+              <span>·</span>
+              <span>Como te Mueves ZMG</span>
+            </div>
+            <span class="article-card-cta">Leer nota</span>
+          </div>
+        </a>
+
+        <!-- Artículo 2: Plástico -->
+        <a href="articulo-plastico.html" class="article-card">
+          <img
+            src="imagen-cuida-tu-plastico.jpeg"
+            alt="Cuidar tu plástico para cuidar tu autonomía"
+            class="article-card-img"
+          />
+          <div class="article-card-body">
+            <p class="article-card-type">Análisis</p>
+            <h3 class="article-card-title">Cuidar tu plástico para cuidar tu autonomía</h3>
+            <p class="article-card-excerpt">
+              Con la tarjeta verde descontinuada, conservar tu Mi Movilidad se convierte en una decisión
+              que va más allá de la comodidad. Fernando Casarín explica por qué y cómo hacerlo.
+            </p>
+            <div class="article-card-meta">
+              <span>Abril 2026</span>
+              <span>·</span>
+              <span>Fernando Casarín</span>
+            </div>
+            <span class="article-card-cta">Leer análisis</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ───────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Como te Mueves ZMG</h4>
+          <p style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--gray-400); line-height: var(--leading-relaxed); max-width: none;">
+            Investigación periodística independiente sobre el ecosistema de transporte público
+            en la Zona Metropolitana de Guadalajara. Código abierto. Datos bajo licencia CC BY 4.0.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Secciones</h4>
+          <ul>
+            <li><a href="transparencia.html">Transparencia</a></li>
+            <li><a href="tarifazo.html">Tarifazo</a></li>
+            <li><a href="mundial.html">Mundial FIFA 2026</a></li>
+            <li><a href="datos.html">Datos y mapas</a></li>
+            <li><a href="articulos.html">Artículos y reportajes</a></li>
+            <li><a href="metodologia.html">Metodología</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Proyecto</h4>
+          <ul>
+            <li><a href="metodologia.html">Bases de datos</a></li>
+            <li><a href="metodologia.html#transparencia">Solicitudes de transparencia</a></li>
+            <li><a href="https://github.com/" target="_blank" rel="noopener">Código en GitHub</a></li>
+            <li><a href="mailto:contacto@comotemoveszmg.mx">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Como te Mueves ZMG · Datos bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/" style="color: var(--primary);">CC BY 4.0</a> · Publicado con GitHub Pages
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // Fade-in al scroll
+    const sections = document.querySelectorAll('.fade-in-section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    sections.forEach(s => observer.observe(s));
+
+    // Header con sombra al scroll
+    const header = document.querySelector('.site-header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 10 ? 'var(--shadow-md)' : 'none';
+    });
+
+    // Sub-nav: marcar enlace activo según sección visible
+    const anchors = document.querySelectorAll('.subnav-link');
+    const sectionEls = [...anchors].map(a => document.querySelector(a.getAttribute('href')));
+
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          anchors.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.subnav-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sectionEls.forEach(s => { if (s) navObserver.observe(s); });
+  </script>
+
+</body>
+</html>

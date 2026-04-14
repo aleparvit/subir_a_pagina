@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿Qué tan satisfechos están en la ZMG con su transporte? — Como te Mueves ZMG</title>
+  <meta name="description"
+    content="El 60% de las personas usa el transporte porque no tiene otra opción. Los resultados de la encuesta de IMEPLAN 2025 y sus límites metodológicos." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="design-tokens_2.css" />
+  <link rel="stylesheet" href="base_2.css" />
+  <link rel="stylesheet" href="components_2.css" />
+
+  <style>
+    .alert-band {
+      background-color: var(--accent-light);
+      border-bottom: 2px solid var(--accent);
+      padding: var(--space-3) 0;
+      text-align: center;
+    }
+
+    .alert-band p {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+      margin: 0;
+      max-width: none;
+    }
+
+    .alert-band a {
+      color: var(--accent-dark);
+      font-weight: var(--weight-semibold);
+      text-decoration: underline;
+    }
+
+    .article-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--space-9) var(--space-5);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-6);
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .back-link::before {
+      content: '←';
+    }
+
+    .article-type {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-widest);
+      margin-bottom: var(--space-3);
+    }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: var(--weight-extrabold);
+      line-height: var(--leading-tight);
+      color: var(--text-primary);
+      margin-bottom: var(--space-5);
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .article-deck {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-normal);
+      color: var(--text-secondary);
+      line-height: var(--leading-snug);
+      margin-bottom: var(--space-6);
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--gray-200);
+      margin-bottom: var(--space-7);
+    }
+
+    .article-hero-img {
+      width: 100%;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: var(--space-7);
+      display: block;
+    }
+
+    .article-body p {
+      font-family: var(--font-body);
+      font-size: var(--text-lg);
+      line-height: 1.75;
+      color: var(--text-primary);
+      margin-bottom: var(--space-5);
+      max-width: none;
+    }
+
+    .article-body strong {
+      font-weight: var(--weight-bold);
+    }
+
+    .article-body h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+      margin: var(--space-8) 0 var(--space-4);
+    }
+
+    /* Barras de satisfacción */
+    .sat-chart {
+      margin: var(--space-6) 0;
+    }
+
+    .sat-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 55px;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    @media (max-width: 560px) {
+      .sat-row {
+        grid-template-columns: 120px 1fr 45px;
+      }
+    }
+
+    .sat-label {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    .sat-bar-track {
+      height: 10px;
+      background: var(--gray-200);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .sat-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    .sat-score {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: var(--weight-bold);
+      color: var(--text-primary);
+    }
+
+    /* Stats inline */
+    .inline-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+      margin: var(--space-7) 0;
+    }
+
+    @media (max-width: 520px) {
+      .inline-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .inline-stat {
+      background: var(--surface);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-5);
+      text-align: center;
+    }
+
+    .inline-stat-num {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-extrabold);
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+
+    .inline-stat-label {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Caja de advertencia metodológica */
+    .method-warning {
+      background: #fef3c7;
+      border: 2px solid var(--warning);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      margin: var(--space-7) 0;
+    }
+
+    .method-warning-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-bold);
+      color: #92400e;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-3);
+    }
+
+    .method-warning p {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+      line-height: var(--leading-relaxed);
+      margin: 0 0 var(--space-3);
+    }
+
+    .method-warning p:last-child {
+      margin: 0;
+    }
+
+    .source-note {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--gray-200);
+      padding-top: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .related-section {
+      border-top: 2px solid var(--gray-200);
+      margin-top: var(--space-9);
+      padding-top: var(--space-7);
+    }
+
+    .related-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-5);
+    }
+
+    .related-link {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      text-decoration: none;
+      padding: var(--space-4);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      transition: all var(--transition-base) var(--ease-out);
+    }
+
+    .related-link:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      text-decoration: none;
+    }
+
+    .related-link img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: var(--border-radius-sm);
+      flex-shrink: 0;
+    }
+
+    .related-link-type {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      color: var(--primary);
+      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-1);
+    }
+
+    .related-link-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      color: var(--text-primary);
+      line-height: var(--leading-snug);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="alert-band">
+    <p>Desde el 1 de abril de 2026, la tarifa del transporte en la ZMG es de <strong>$11 pesos</strong>. La tarifa
+      técnica aprobada fue de $14. <a href="tarifazo.html">Conoce el proceso →</a></p>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Como te Mueves ZMG</a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="transparencia.html" style="color: var(--primary);">Transparencia</a></li>
+          <li><a href="tarifazo.html">Tarifazo</a></li>
+          <li><a href="mundial.html">Mundial</a></li>
+          <li><a href="datos.html">Datos y mapas</a></li>
+          <li><a href="articulos.html">Artículos y reportajes</a></li>
+          <li><a href="metodologia.html">Metodología</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="article-wrapper">
+      <a href="transparencia.html" class="back-link">Transparencia</a>
+
+      <p class="article-type">Nota</p>
+      <h1 class="article-title">¿Qué tan satisfechos están en la ZMG con su transporte?</h1>
+      <p class="article-deck">
+        El 60% de las personas usa el transporte público porque no tiene otra opción.
+        Esto es lo que reportan sobre el servicio que reciben —y lo que la propia encuesta no puede medir.
+      </p>
+      <div class="article-meta">
+        <span>Abril 2026</span>
+        <span>·</span>
+        <span>Como te Mueves ZMG</span>
+        <span>·</span>
+        <span>Fuente: Encuesta IMEPLAN 2025</span>
+      </div>
+
+      <img src="imagen-nota-encuesta-satisfaccion.png" alt="¿Qué tan satisfechos están en la ZMG con su transporte?"
+        class="article-hero-img" />
+
+      <div class="article-body">
+
+        <p>
+          La mayoría de quienes viajan en transporte público en la ZMG son jóvenes:
+          el 46% de las personas usuarias tiene entre 18 y 34 años. Pero el sistema de transporte
+          no está construido en igualdad de condiciones. Existen distintos estratos de rutas,
+          cada uno con problemas y dinámicas propias. Las rutas convencionales son las que mueven
+          a la mayor parte de la población: 175 rutas, 1.6 millones de personas al día.
+        </p>
+
+        <h3>Brecha entre sistemas</h3>
+
+        <p>Los resultados de la encuesta muestran una brecha clara entre tipos de servicio:</p>
+
+        <!-- Barras de satisfacción -->
+        <div class="sat-chart">
+          <div class="sat-row">
+            <span class="sat-label">Líneas de tren</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:87.8%;background:var(--success)"></div>
+            </div>
+            <span class="sat-score">4.39</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Mi Macro Periférico</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:84%;background:var(--warning)"></div>
+            </div>
+            <span class="sat-score">3.99</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Rutas convencionales</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:79%;background:var(--warning)"></div>
+            </div>
+            <span class="sat-score">3.99</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Rutas Alimentadoras</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:79%;background:var(--danger)"></div>
+            </div>
+            <span class="sat-score">3.76</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Rutas federales</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:72.4%;background:var(--danger)"></div>
+            </div>
+            <span class="sat-score">3.62</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Mi Macro Calzada</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:79%;background:var(--warning)"></div>
+            </div>
+            <span class="sat-score">3.74</span>
+          </div>
+          <div class="sat-row">
+            <span class="sat-label">Corredor López Mateos</span>
+            <div class="sat-bar-track">
+              <div class="sat-bar-fill" style="width:87.8%;background:var(--success)"></div>
+            </div>
+            <span class="sat-score">4.11</span>
+          </div>
+        </div>
+        <p
+          style="font-family:var(--font-heading);font-size:var(--text-xs);color:var(--text-tertiary);margin-top:-var(--space-3)">
+          Escala 1–5 · Encuesta de Satisfacción del Usuario · IMEPLAN 2025</p>
+
+        <h3>Ninguna otra opción</h3>
+
+        <p>
+          Cuando se les pregunta a las personas por qué usan el transporte público,
+          la respuesta no apunta precisamente a una preferencia:
+          <strong>el 60% afirma que es su única opción disponible para trasladarse</strong>.
+          En todos los estratos de rutas, la frecuencia de uso se ubica entre 4 y 5 días a la semana.
+          Esto confirma que el transporte público es central para actividades fundamentales:
+          ir a la escuela, al trabajo, al médico o realizar otras tareas básicas.
+        </p>
+
+        <div class="inline-stats">
+          <div class="inline-stat">
+            <p class="inline-stat-num">$39–45</p>
+            <p class="inline-stat-label">Pesos diarios en traslados (gasto promedio por estrato)</p>
+          </div>
+          <div class="inline-stat">
+            <p class="inline-stat-num">$114</p>
+            <p class="inline-stat-label">Pesos diarios para quienes requieren múltiples transbordos en rutas
+              convencionales</p>
+          </div>
+        </div>
+
+        <p>
+          Las rutas federales son las más costosas, con un gasto promedio de 50 pesos al día.
+          Sin embargo, quienes usan rutas convencionales y alimentadoras enfrentan una carga todavía mayor:
+          al requerir más transbordos, su gasto puede llegar hasta 114 pesos diarios.
+        </p>
+
+        <h3>Accesibilidad y seguridad</h3>
+
+        <p>
+          Moverse con responsabilidades extra sigue siendo un reto. El 46% de las personas encuestadas
+          califica como difícil viajar con bultos o bolsas del mandado. Aún más crítico,
+          el 34% considera "muy difícil" trasladarse con personas a su cuidado —como infancias,
+          personas adultas mayores o personas con discapacidad.
+        </p>
+
+        <p>
+          En cuanto a la seguridad de las mujeres, las cifras son alarmantes:
+          <strong>el 11% de las personas usuarias reportó haber sufrido acoso sexual en el último año</strong>,
+          siendo el principal agresor otro pasajero hombre. Entre las medidas que las usuarias proponen
+          se encuentran la instalación de botones de emergencia y una mejor iluminación.
+        </p>
+
+        <p>
+          Solo el 5% presentó alguna queja durante el último año y, de ese pequeño grupo,
+          la mayoría señaló que no recibió respuesta o que no hubo sanciones reales.
+          La principal demanda ciudadana se concentra en aumentar la frecuencia de paso de los camiones.
+          Otro 24% pidió mejores unidades.
+        </p>
+
+        <h3>Los límites de la propia encuesta</h3>
+
+        <div class="method-warning">
+          <p class="method-warning-title">⚠ Advertencia metodológica</p>
+          <p>Para el levantamiento se excluyeron líneas donde el tiempo de espera superaba las dos horas —justamente un
+            umbral que ya refleja un servicio profundamente deficiente. Esto significa que una parte de las experiencias
+            más críticas del sistema quedó fuera de la muestra.</p>
+          <p>Las rutas convencionales, que concentran más problemas según la misma encuesta, quedaron
+            <strong>subrepresentadas</strong>: el factor de ponderación aplicado fue de 2.5, mientras que el de rutas
+            federales fue de 0.12. Una diferencia de ese tamaño sugiere un desbalance considerable y obliga a leer con
+            cautela el resultado global de 4.02 sobre 5.</p>
+          <p>Además, la encuesta de 2024 se reportó en escala 0–10 y la de 2025 en escala 0–5. Ese cambio <strong>rompe
+              la comparabilidad histórica</strong> e impide dar seguimiento público a la evolución de la satisfacción
+            con el transporte.</p>
+        </div>
+
+        <p>
+          Mientras tanto, en vez de atender primero estas deficiencias, la tarifa aumentó de $9.50 a $11 pesos —
+          con una tarifa técnica aprobada de $14.
+        </p>
+
+      </div>
+
+      <p class="source-note">Fuente: Encuesta de Satisfacción del Usuario de Transporte Público · IMEPLAN 2025 ·
+        Instituto de Información Estadística y Geográfica de Jalisco (IIEG).</p>
+
+      <nav class="related-section" aria-label="Artículos relacionados">
+        <p class="related-title">También en esta sección</p>
+        <a href="articulo-padron.html" class="related-link">
+          <img src="imagen-concesionarios.png" alt="Padrón de concesionarios" />
+          <div>
+            <p class="related-link-type">Análisis de datos</p>
+            <p class="related-link-title">En el padrón abierto, 9 de cada 10 rutas aparecen fuera de plazo</p>
+          </div>
+        </a>
+      </nav>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Como te Mueves ZMG</h4>
+          <p
+            style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--gray-400); line-height: var(--leading-relaxed); max-width: none;">
+            Investigación periodística independiente sobre el transporte público en la ZMG.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Secciones</h4>
+          <ul>
+            <li><a href="transparencia.html">Transparencia</a></li>
+            <li><a href="tarifazo.html">Tarifazo</a></li>
+            <li><a href="articulos.html">Artículos y reportajes</a></li>
+            <li><a href="metodologia.html">Metodología</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Como te Mueves ZMG · Datos bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/"
+          style="color: var(--primary);">CC BY 4.0</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

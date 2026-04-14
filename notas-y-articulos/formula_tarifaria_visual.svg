@@ -1,0 +1,33 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F6F1E8"/>
+  <rect x="56" y="56" width="1488" height="788" rx="28" fill="#FFFDFC" stroke="#D9CFC0" stroke-width="2"/>
+
+  <text x="110" y="150" fill="#8B3A2E" font-family="DM Sans, Verdana, sans-serif" font-size="28" font-weight="700" letter-spacing="1.5">TARIFA DEL TRANSPORTE PUBLICO</text>
+  <text x="110" y="210" fill="#1E293B" font-family="Georgia, Times New Roman, serif" font-size="56" font-weight="700">Formula de indexacion anual</text>
+  <text x="110" y="258" fill="#52606D" font-family="DM Sans, Verdana, sans-serif" font-size="24">Transcripcion limpia del documento "FORMULA TARIFARIA.pdf"</text>
+
+  <rect x="110" y="310" width="1380" height="120" rx="22" fill="#8B3A2E"/>
+  <text x="800" y="388" text-anchor="middle" fill="#FFF8F1" font-family="Georgia, Times New Roman, serif" font-size="38" font-weight="700">% IndxAnual = (PC × ΔVCt) + (PCOV × ΔINPPt) + (PRH × ΔSMt)</text>
+
+  <text x="110" y="492" fill="#1E293B" font-family="DM Sans, Verdana, sans-serif" font-size="26" font-weight="700">Variables</text>
+
+  <text x="110" y="548" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">PC</text>
+  <text x="180" y="548" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Ponderacion de los costos de combustibles dentro del total de costos del transporte.</text>
+
+  <text x="110" y="596" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">ΔVCt</text>
+  <text x="180" y="596" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Variacion de los precios de los combustibles en un periodo de tiempo t.</text>
+
+  <text x="110" y="644" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">PCOV</text>
+  <text x="180" y="644" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Ponderacion de los costos de operacion vehicular, sin combustibles.</text>
+
+  <text x="110" y="692" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">ΔINPPt</text>
+  <text x="210" y="692" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Variacion del Indice Nacional de Precios Productor del sector.</text>
+
+  <text x="110" y="740" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">PRH</text>
+  <text x="180" y="740" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Ponderacion de los costos de recursos humanos dentro del total de costos del transporte.</text>
+
+  <text x="110" y="788" fill="#111827" font-family="DM Sans, Verdana, sans-serif" font-size="24" font-weight="700">ΔSMt</text>
+  <text x="190" y="788" fill="#334155" font-family="DM Sans, Verdana, sans-serif" font-size="24">Variacion del salario minimo de la region en un periodo de tiempo t.</text>
+
+  <text x="110" y="826" fill="#7C8A97" font-family="DM Sans, Verdana, sans-serif" font-size="18">Fuente: Coordinacion General Estrategica de Gestion del Territorio, oficio CGEGT/UT/126/2026, 26 de enero de 2026.</text>
+</svg>
