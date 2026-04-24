@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>El Tarifazo — Como te Mueves ZMG</title>
-  <meta name="description" content="Análisis del proceso que llevó al aumento de tarifa del transporte público en la ZMG en 2026: la fórmula, los actores y el contrato con Broxel." />
+  <meta name="description"
+    content="Análisis del proceso que llevó al aumento de tarifa del transporte público en la ZMG en 2026: la fórmula, los actores y el contrato con Broxel." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="design-tokens_2.css" />
   <link rel="stylesheet" href="base_2.css" />
   <link rel="stylesheet" href="components_2.css" />
 
   <style>
-
     /* ── Sub-navegación interna ────────────────── */
     .subnav {
       background: var(--surface);
       border-bottom: 1px solid var(--gray-200);
       position: sticky;
-      top: 65px;          /* debajo del header principal */
+      top: 65px;
+      /* debajo del header principal */
       z-index: 900;
     }
 
@@ -32,7 +36,9 @@
       scrollbar-width: none;
     }
 
-    .subnav-inner::-webkit-scrollbar { display: none; }
+    .subnav-inner::-webkit-scrollbar {
+      display: none;
+    }
 
     .subnav-link {
       font-family: var(--font-heading);
@@ -70,8 +76,14 @@
       text-decoration: none;
     }
 
-    .back-link:hover { color: var(--primary); text-decoration: none; }
-    .back-link::before { content: '←'; }
+    .back-link:hover {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .back-link::before {
+      content: '←';
+    }
 
     /* ── Comparativo tarifario ─────────────────── */
     .tariff-compare {
@@ -82,7 +94,9 @@
     }
 
     @media (max-width: 640px) {
-      .tariff-compare { grid-template-columns: 1fr; }
+      .tariff-compare {
+        grid-template-columns: 1fr;
+      }
     }
 
     .tariff-item {
@@ -93,15 +107,52 @@
       border: 1px solid var(--gray-200);
     }
 
-    .tariff-item.highlight { border-color: var(--primary); background: var(--primary-light); }
-    .tariff-item.alert     { border-color: var(--danger);  background: #fef2f2; }
+    .tariff-item.highlight {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
 
-    .tariff-year  { font-family: var(--font-heading); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: var(--tracking-wider); margin-bottom: var(--space-2); }
-    .tariff-peso  { font-family: var(--font-display); font-size: var(--text-5xl); font-weight: var(--weight-extrabold); line-height: 1; margin-bottom: var(--space-1); }
-    .tariff-peso.old       { color: var(--text-tertiary); }
-    .tariff-peso.technical { color: var(--danger); }
-    .tariff-peso.applied   { color: var(--primary); }
-    .tariff-note  { font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-normal); }
+    .tariff-item.alert {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .tariff-year {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-2);
+    }
+
+    .tariff-peso {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: var(--weight-extrabold);
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+
+    .tariff-peso.old {
+      color: var(--text-tertiary);
+    }
+
+    .tariff-peso.technical {
+      color: var(--danger);
+    }
+
+    .tariff-peso.applied {
+      color: var(--primary);
+    }
+
+    .tariff-note {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: var(--leading-normal);
+    }
 
     /* ── Timeline embed ────────────────────────── */
     .timeline-container {
@@ -142,12 +193,14 @@
     }
 
     @media (max-width: 700px) {
-      .formula-vars { grid-template-columns: 1fr; }
+      .formula-vars {
+        grid-template-columns: 1fr;
+      }
     }
 
     .formula-var {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: var(--border-radius);
       padding: var(--space-4);
     }
@@ -205,7 +258,9 @@
     }
 
     @media (max-width: 600px) {
-      .opacity-box-grid { grid-template-columns: 1fr; }
+      .opacity-box-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .opacity-col-title {
@@ -215,8 +270,13 @@
       margin-bottom: var(--space-3);
     }
 
-    .opacity-col-title.yes { color: var(--success); }
-    .opacity-col-title.no  { color: var(--danger);  }
+    .opacity-col-title.yes {
+      color: var(--success);
+    }
+
+    .opacity-col-title.no {
+      color: var(--danger);
+    }
 
     .opacity-list {
       list-style: none;
@@ -236,10 +296,26 @@
       margin: 0;
     }
 
-    .opacity-list li:last-child { border-bottom: none; }
-    .opacity-list li::before { flex-shrink: 0; margin-top: 1px; }
-    .opacity-list.yes li::before { content: '✓'; color: var(--success); font-weight: bold; }
-    .opacity-list.no  li::before { content: '✗'; color: var(--danger);  font-weight: bold; }
+    .opacity-list li:last-child {
+      border-bottom: none;
+    }
+
+    .opacity-list li::before {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .opacity-list.yes li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .opacity-list.no li::before {
+      content: '✗';
+      color: var(--danger);
+      font-weight: bold;
+    }
 
     /* ── Discrepancia del subsidio ─────────────── */
     .discrepancy-block {
@@ -279,8 +355,14 @@
       line-height: 1;
     }
 
-    .discrepancy-amt .number.announced { color: var(--text-tertiary); }
-    .discrepancy-amt .number.budgeted  { color: var(--danger); }
+    .discrepancy-amt .number.announced {
+      color: var(--text-tertiary);
+    }
+
+    .discrepancy-amt .number.budgeted {
+      color: var(--danger);
+    }
+
     .discrepancy-amt .desc {
       font-family: var(--font-heading);
       font-size: var(--text-sm);
@@ -331,10 +413,19 @@
       vertical-align: top;
     }
 
-    .actors-table tr:hover td { background: var(--gray-50); }
+    .actors-table tr:hover td {
+      background: var(--gray-50);
+    }
 
-    .actor-name { font-weight: var(--weight-semibold); }
-    .actor-role { color: var(--text-secondary); font-size: var(--text-xs); margin-top: 2px; }
+    .actor-name {
+      font-weight: var(--weight-semibold);
+    }
+
+    .actor-role {
+      color: var(--text-secondary);
+      font-size: var(--text-xs);
+      margin-top: 2px;
+    }
 
     .influence-badge {
       display: inline-block;
@@ -345,9 +436,46 @@
       border-radius: var(--border-radius-full);
     }
 
-    .influence-high   { background: #fef3c7; color: #92400e; }
-    .influence-vhigh  { background: #fecaca; color: #991b1b; }
-    .influence-medium { background: var(--gray-100); color: var(--gray-600); }
+    .influence-high {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .influence-vhigh {
+      background: #fecaca;
+      color: #991b1b;
+    }
+
+    .influence-medium {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    .vote-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      padding: 3px 10px;
+      border-radius: var(--border-radius-full);
+    }
+
+    .vote-favor {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .vote-contra {
+      background: #fecaca;
+      color: #991b1b;
+    }
+
+    .vote-novote {
+      background: var(--gray-100);
+      color: var(--gray-500);
+    }
 
     /* ── Tarjetas de artículo ──────────────────── */
     .articles-grid {
@@ -358,7 +486,9 @@
     }
 
     @media (max-width: 768px) {
-      .articles-grid { grid-template-columns: 1fr; }
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .article-card {
@@ -443,7 +573,9 @@
       transition: margin var(--transition-fast) var(--ease-out);
     }
 
-    .article-card:hover .article-card-cta::after { margin-left: 4px; }
+    .article-card:hover .article-card-cta::after {
+      margin-left: 4px;
+    }
 
     /* ── Artículo completo (dentro de sección) ─── */
     .article-full {
@@ -486,7 +618,9 @@
       max-width: none;
     }
 
-    .article-body strong { font-weight: var(--weight-bold); }
+    .article-body strong {
+      font-weight: var(--weight-bold);
+    }
 
     .article-body ul {
       font-family: var(--font-body);
@@ -497,7 +631,9 @@
       margin-bottom: var(--space-5);
     }
 
-    .article-body ul li { margin-bottom: var(--space-3); }
+    .article-body ul li {
+      margin-bottom: var(--space-3);
+    }
 
     /* ── Separador de sección ──────────────────── */
     .section-divider {
@@ -541,6 +677,7 @@
       padding: var(--space-3) 0;
       text-align: center;
     }
+
     .alert-band p {
       font-family: var(--font-heading);
       font-size: var(--text-sm);
@@ -549,10 +686,15 @@
       margin: 0;
       max-width: none;
     }
-    .alert-band a { color: var(--accent-dark); font-weight: var(--weight-semibold); text-decoration: underline; }
 
+    .alert-band a {
+      color: var(--accent-dark);
+      font-weight: var(--weight-semibold);
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- ── ALERTA COYUNTURAL ─────────────────────── -->
@@ -584,10 +726,10 @@
   <nav class="subnav" aria-label="Navegación de sección">
     <div class="container">
       <div class="subnav-inner">
-        <a href="#historia"   class="subnav-link">La historia</a>
-        <a href="#formula"    class="subnav-link">La fórmula</a>
-        <a href="#actores"    class="subnav-link">Los actores</a>
-        <a href="#broxel"     class="subnav-link">Broxel y la tarjeta</a>
+        <a href="#historia" class="subnav-link">La historia</a>
+        <a href="#formula" class="subnav-link">La fórmula</a>
+        <a href="#actores" class="subnav-link">Los actores</a>
+        <a href="#broxel" class="subnav-link">Broxel y la tarjeta</a>
         <a href="#reportajes" class="subnav-link">Artículos</a>
       </div>
     </div>
@@ -643,13 +785,11 @@
       <div class="timeline-container">
         <iframe
           src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2%3A2PACX-1vSbT0Zz4bzAOi7WDDWfzXFApmWvJB24pJhpZ6DFiyO7rtgUfQaGBVA04mAiV7aEJSEQ0d7WzlHx0D45&font=Default&lang=es&timenav_position=top&hash_bookmark=true&initial_zoom=2&theme=contrast&width=100%25&height=650"
-          height="650"
-          title="Línea del tiempo: el tarifazo en la ZMG 2018–2026"
-          allowfullscreen
-        ></iframe>
+          height="650" title="Línea del tiempo: el tarifazo en la ZMG 2018–2026" allowfullscreen></iframe>
       </div>
 
-      <p class="source-note">Fuente: Elaboración propia con base en reportes de UDG TV, El Informador, Infobae México y documentos oficiales del gobierno de Jalisco.</p>
+      <p class="source-note">Fuente: Elaboración propia con base en reportes de UDG TV, El Informador, Infobae México y
+        documentos oficiales del gobierno de Jalisco.</p>
     </div>
   </section>
 
@@ -676,18 +816,22 @@
         <div class="formula-vars">
           <div class="formula-var">
             <p class="formula-var-name">α · ΔC</p>
-            <p class="formula-var-desc">Variación en el precio de los combustibles (diésel / gas natural). Ponderación definida por el Comité.</p>
+            <p class="formula-var-desc">Variación en el precio de los combustibles (diésel / gas natural). Ponderación
+              definida por el Comité.</p>
           </div>
           <div class="formula-var">
             <p class="formula-var-name">β · ΔINPP</p>
-            <p class="formula-var-desc">Variación del Índice Nacional de Precios Productor. Refleja los costos de operación vehicular.</p>
+            <p class="formula-var-desc">Variación del Índice Nacional de Precios Productor. Refleja los costos de
+              operación vehicular.</p>
           </div>
           <div class="formula-var">
             <p class="formula-var-name">γ · ΔSM</p>
-            <p class="formula-var-desc">Variación anual del salario mínimo. Corresponde a los costos de recursos humanos del sector.</p>
+            <p class="formula-var-desc">Variación anual del salario mínimo. Corresponde a los costos de recursos humanos
+              del sector.</p>
           </div>
         </div>
-        <p class="formula-caption">Artículo 331 · Ley de Movilidad, Seguridad Vial y Transporte del Estado de Jalisco</p>
+        <p class="formula-caption">Artículo 331 · Ley de Movilidad, Seguridad Vial y Transporte del Estado de Jalisco
+        </p>
       </div>
 
       <!-- Qué entra y qué no -->
@@ -716,8 +860,10 @@
       </div>
 
       <p style="font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--leading-relaxed);">
-        La aplicación de 2026 tuvo además una particularidad: el Comité Técnico utilizó una <strong>indexación multianual</strong>
-        que proyecta costos hasta 2030. Esta interpretación fue cuestionada por académicos de la Universidad de Guadalajara
+        La aplicación de 2026 tuvo además una particularidad: el Comité Técnico utilizó una <strong>indexación
+          multianual</strong>
+        que proyecta costos hasta 2030. Esta interpretación fue cuestionada por académicos de la Universidad de
+        Guadalajara
         y el Observatorio Ciudadano de Movilidad, quienes señalaron que la ley solo permite ajustes anuales.
         La discrepancia entre lo que se votó (13.03 pesos, según el representante de la UdeG) y lo que se publicó
         (14.00 pesos) tampoco ha sido aclarada públicamente: el acta de la sesión del 26 de diciembre de 2025
@@ -739,13 +885,15 @@
           </div>
         </div>
         <p class="discrepancy-gap">
-          La diferencia de más de <strong>423 millones de pesos</strong> entre el anuncio del Ejecutivo y el presupuesto aprobado
+          La diferencia de más de <strong>423 millones de pesos</strong> entre el anuncio del Ejecutivo y el presupuesto
+          aprobado
           no ha sido explicada. El Secretario de Hacienda mencionó "mecanismos de reconducción", pero no existe
           una partida presupuestal específica que los documente.
         </p>
       </div>
 
-      <p class="source-note">Fuentes: Presupuesto de Egresos 2026 del Estado de Jalisco; declaraciones del Secretario de Hacienda ante el Congreso del Estado; análisis del Dr. Mario Córdova España (UdeG).</p>
+      <p class="source-note">Fuentes: Presupuesto de Egresos 2026 del Estado de Jalisco; declaraciones del Secretario de
+        Hacienda ante el Congreso del Estado; análisis del Dr. Mario Córdova España (UdeG).</p>
     </div>
   </section>
 
@@ -766,69 +914,93 @@
         </p>
       </header>
 
-      <h3 style="font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--text-secondary); margin-bottom: var(--space-4);">Círculo de decisión política</h3>
+      <h3
+        style="font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--weight-semibold); color: var(--text-secondary); margin-bottom: var(--space-4);">
+        Comité Técnico Tarifario</h3>
+      <p
+        style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-5); max-width: 65ch;">
+        El Comité está integrado por 7 miembros: 6 con voto y uno con voz únicamente (el Secretario de Transporte, que
+        actúa como secretario de actas). La votación del 26 de diciembre de 2025 aprobó la tarifa técnica de $14.</p>
 
-      <div style="overflow-x: auto;">
-        <table class="actors-table" aria-label="Actores en la decisión tarifaria">
+      <div style="overflow-x: auto; margin-bottom: var(--space-8);">
+        <table class="actors-table" aria-label="Miembros del Comité Técnico Tarifario">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Cargo</th>
-              <th>Rol en la decisión</th>
-              <th>Influencia</th>
+              <th>Miembro</th>
+              <th>Representa</th>
+              <th>Participación</th>
+              <th>Peso real</th>
+              <th>Voto en el tarifazo</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <p class="actor-name">Pablo Lemus Navarro</p>
-                <p class="actor-role">Gobernador de Jalisco</p>
+                <p class="actor-name">Juan Huerta Peres</p>
               </td>
-              <td>Poder Ejecutivo</td>
-              <td>Responsable de fijar la tarifa final aplicada. Anunció el freno a $14 y estableció la tarifa de $11.</td>
-              <td><span class="influence-badge influence-vhigh">Muy alta</span></td>
+              <td>CTM Jalisco (sindicato)</td>
+              <td>Voto</td>
+              <td>Sindical corporativo</td>
+              <td><span class="vote-badge vote-favor">A favor</span></td>
             </tr>
             <tr>
               <td>
-                <p class="actor-name">Diego Monraz Villaseñor</p>
-                <p class="actor-role">Secretario de Transporte (SETRAN)</p>
+                <p class="actor-name">José Alberto Cortés</p>
               </td>
-              <td>SETRAN</td>
-              <td>Coordinó los estudios técnicos presentados al Comité. Fue señalado por el representante de la UdeG como quien impuso los $14 en la sesión del 26 de diciembre.</td>
-              <td><span class="influence-badge influence-high">Alta</span></td>
+              <td>CROC (transportistas)</td>
+              <td>Voto</td>
+              <td>Voz transportistas</td>
+              <td><span class="vote-badge vote-favor">A favor</span></td>
             </tr>
             <tr>
               <td>
-                <p class="actor-name">Mario Córdova España</p>
-                <p class="actor-role">Universidad de Guadalajara</p>
+                <p class="actor-name">César de Anda</p>
               </td>
-              <td>Comité Técnico Tarifario</td>
-              <td>Representante académico. Rechazó la tarifa de $14 y documentó la discrepancia con los $13.03 que describe como el resultado real de la votación.</td>
-              <td><span class="influence-badge influence-medium">Media-Alta</span></td>
+              <td>COINCYDES (coordinadora transportistas)</td>
+              <td>Voto</td>
+              <td>Concesionarias</td>
+              <td><span class="vote-badge vote-favor">A favor</span></td>
             </tr>
             <tr>
               <td>
-                <p class="actor-name">Enrique Dueñas Rodríguez</p>
-                <p class="actor-role">Observatorio Ciudadano de Movilidad</p>
+                <p class="actor-name">Ricardo Verdín</p>
               </td>
-              <td>Comité Técnico Tarifario</td>
-              <td>Supervisión de la legalidad del proceso. Denunció la ilegalidad de la sesión a puerta cerrada del 26 de diciembre.</td>
-              <td><span class="influence-badge influence-medium">Media</span></td>
+              <td>Fideicomiso Recaudo (transportistas)</td>
+              <td>Voto</td>
+              <td>Recaudadores</td>
+              <td><span class="vote-badge vote-favor">A favor</span></td>
             </tr>
             <tr>
               <td>
-                <p class="actor-name">Nazario Ramírez</p>
-                <p class="actor-role">CTM Jalisco (transportistas)</p>
+                <p class="actor-name">Diego Monraz</p>
               </td>
-              <td>Gremio</td>
-              <td>Líder histórico de los concesionarios de la CTM. Detenido en octubre de 2025 por presuntos vínculos con actividades delictivas, lo que alteró la dinámica de negociación del sector.</td>
-              <td><span class="influence-badge influence-medium">Media (antes alta)</span></td>
+              <td>Setran (gobierno)</td>
+              <td>Voz</td>
+              <td>Secretario actas</td>
+              <td><span class="vote-badge vote-novote">Sin voto</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Adonais González</p>
+              </td>
+              <td>Observatorio Movilidad</td>
+              <td>Voto</td>
+              <td>Crítico</td>
+              <td><span class="vote-badge vote-contra">En contra</span></td>
+            </tr>
+            <tr>
+              <td>
+                <p class="actor-name">Mario Córdova</p>
+              </td>
+              <td>UdeG</td>
+              <td>Voto</td>
+              <td>Académico</td>
+              <td><span class="vote-badge vote-contra">En contra ($14)</span></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <p class="source-note">Fuentes: UDG TV, Zona Docs, El Financiero, documentos del Comité Técnico Tarifario.</p>
     </div>
   </section>
 
@@ -870,20 +1042,22 @@
       </div>
 
       <blockquote class="pullquote">
-        "Si el gobierno ya terminó reculando y aseguró que la tarjeta no sería necesaria para acceder al subsidio,
-        entonces el foco cambia: ¿qué pasa con el contrato que ya estaba firmado?"
-        <p class="pullquote-cite">Nota de investigación · Como te Mueves ZMG</p>
+        Si el gobierno ya terminó cediendo y aseguró que la tarjeta no sería necesaria para acceder al subsidio,
+        entonces el foco cambia: ¿qué pasa con el contrato que ya estaba firmado?
+        <p class="pullquote-cite">Como te Mueves ZMG</p>
       </blockquote>
 
       <p style="font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--leading-relaxed);">
-        El contrato con Broxel (licitación LPN 690/2025) prevé una <strong>garantía mínima de compra de dos millones de tarjetas</strong>.
+        El contrato con Broxel (licitación LPN 690/2025) prevé una <strong>garantía mínima de compra de dos millones de
+          tarjetas</strong>.
         Esto significa que el gobierno tiene una obligación de pago por ese volumen independientemente
         de cuántas personas efectivamente usen la tarjeta. La Contraloría del Estado anunció en marzo de 2026
         una auditoría al contrato. Las preguntas que permanecen abiertas: cuántas tarjetas se emitieron,
         cuánto se ha pagado, y qué sucedió con los datos personales recabados durante el preregistro.
       </p>
 
-      <p class="source-note">Fuentes: Expediente LPN 690/2025 de la Secretaría de Administración de Jalisco; CONDUSEF; Zona Docs; Sin Embargo MX.</p>
+      <p class="source-note">Fuentes: Expediente LPN 690/2025 de la Secretaría de Administración de Jalisco; CONDUSEF;
+        Zona Docs; Sin Embargo MX.</p>
     </div>
   </section>
 
@@ -907,11 +1081,8 @@
 
         <!-- Artículo 1: Broxel -->
         <a href="articulo-broxel.html" class="article-card">
-          <img
-            src="imagen_contrato_broxel.png"
-            alt="La licitación de Broxel — tarjeta naranja Al Estilo Jalisco"
-            class="article-card-img"
-          />
+          <img src="imagen_contrato_broxel.png" alt="La licitación de Broxel — tarjeta naranja Al Estilo Jalisco"
+            class="article-card-img" />
           <div class="article-card-body">
             <p class="article-card-type">Nota de investigación</p>
             <h3 class="article-card-title">Broxel en Jalisco: una licitación extraña y un contrato millonario</h3>
@@ -930,11 +1101,8 @@
 
         <!-- Artículo 2: Plástico -->
         <a href="articulo-plastico.html" class="article-card">
-          <img
-            src="imagen-cuida-tu-plastico.jpeg"
-            alt="Cuidar tu plástico para cuidar tu autonomía"
-            class="article-card-img"
-          />
+          <img src="imagen-cuida-tu-plastico.jpeg" alt="Cuidar tu plástico para cuidar tu autonomía"
+            class="article-card-img" />
           <div class="article-card-body">
             <p class="article-card-type">Análisis</p>
             <h3 class="article-card-title">Cuidar tu plástico para cuidar tu autonomía</h3>
@@ -962,7 +1130,8 @@
       <div class="footer-content">
         <div class="footer-section">
           <h4>Como te Mueves ZMG</h4>
-          <p style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--gray-400); line-height: var(--leading-relaxed); max-width: none;">
+          <p
+            style="font-family: var(--font-heading); font-size: var(--text-sm); color: var(--gray-400); line-height: var(--leading-relaxed); max-width: none;">
             Investigación periodística independiente sobre el ecosistema de transporte público
             en la Zona Metropolitana de Guadalajara. Código abierto. Datos bajo licencia CC BY 4.0.
           </p>
@@ -989,7 +1158,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        © 2026 Como te Mueves ZMG · Datos bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/" style="color: var(--primary);">CC BY 4.0</a> · Publicado con GitHub Pages
+        © 2026 Como te Mueves ZMG · Datos bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/"
+          style="color: var(--primary);">CC BY 4.0</a> · Publicado con GitHub Pages
       </div>
     </div>
   </footer>
@@ -1027,4 +1197,5 @@
   </script>
 
 </body>
+
 </html>
